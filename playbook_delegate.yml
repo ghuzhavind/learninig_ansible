@@ -1,0 +1,49 @@
+---
+- name: Delegate Tasks Lesson
+  hosts: all
+  become: yes
+
+  vars:
+    mytext: "Privet snova!"
+
+  tasks:
+  - name: Ping test
+    ping:
+
+  - name: Unregister Server from Load Balancer
+    shell: echo This server {{ inventory_hostname }}  was unregistered, node name is {{ ansible_nodename }} >> /home/log.txt
+    delegate_to: 127.0.0.1
+
+  - name: Update My Database
+    shell: echo UPDATING DATABASE....
+    run_once: true
+
+  - name: Create file1
+    copy:
+      dest: /home/file1.txt
+      content: |
+        1th row
+        2th row
+        3th row
+        =================>>>>>>>     {{ mytext }}         <<<<============================
+    delegate_to: linux2
+
+  - name: Create file2
+    copy:
+      dest: /home/file2.txt
+      content: |
+        row 1
+        row 2
+        row333333333   =====>>>>>>>>>>>>> {{ mytext }} |||||||||||||\||||||||||||||\\\\||||
+
+  - name: Reboot My Servers
+    reboot:
+      reboot_timeout: 700
+
+  - name: Wait till my servers sill come up online
+    wait_for:
+      host: "{{ inventory_hostname }}"
+      state: started
+      delay: 5
+      timeout: 15
+    delegate_to: 127.0.0.1

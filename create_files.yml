@@ -1,0 +1,18 @@
+---
+- name: create file1
+  copy:
+    dest: /home/secret/file1.txt
+    content:
+      TExt line 1 in file 1
+      text line 2 in file 2
+      my var ========= {{ my_text }}
+
+- name: create file2
+  copy:
+    dest: /home/secret/file2.txt
+    content:
+      text line 1 in file 2
+      text l;ine 2 in file 2
+      my vat iiiiissssssss ---->>>> {{ my_text }}
+      (but it was secret!
+

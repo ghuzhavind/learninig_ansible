@@ -1,0 +1,28 @@
+---
+- name: Vault Lesson
+  hosts: all
+  become: yes
+
+  vars:
+    admin_password: !vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          33653933613031643865323134396532353834356135336233646333356563626432303135326661
+          3130373138313134323837663536616537643264643635340a383033363665623337376565636336
+          39663632656230323464383733653434613439616535393862653137613565353634343833346532
+          3132623061373465630a353737343036393837616230623935663733633063366332313466363431
+          32313538663135333162333837316163323263616637396664376262343761636538
+
+
+  tasks:
+  - name: Install Package Tree
+    apt: name=tree state=latest
+
+  - name: Create Config File
+    copy:
+      dest: /home/ghuzha/myconfig.conf
+      content: |
+        port = 9092
+        log  = 7days
+        home = /opt/kafka/bin/
+        user = admin
+        pass = {{ admin_password }}

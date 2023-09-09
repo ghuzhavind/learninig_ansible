@@ -1,0 +1,17 @@
+---
+- name: Includes and Import Lesson
+  hosts: all
+  become: yes
+
+  vars:
+   my_text: "Privet hehehey"
+
+  tasks:
+  - name: Ping test
+    ping:
+
+  - include: create_folders.yml my_text="changed var)))"            # keyword 'include:' and after it u can add whatever u want
+  - include: create_files.yml   # if u use 'import' ansible "paste" file content in this file before running tasks, but with 'include' - while running  and vars may change 
+
+
+

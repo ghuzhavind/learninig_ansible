@@ -1,0 +1,26 @@
+---
+- name: ERROR HANLINH LESSON
+  hosts: all
+  become: yes
+  any_errors_fatal: true                        # every error is fatal and stops running other
+
+
+  tasks:
+  - name: Task Number 1
+    apt: name=treeeee state=latest
+    ignore_errors: yes
+
+  - name: Task Number 2
+    shell: echo Hello World
+    register: results
+#    failed_when: results.rc == 0                # result.rc is results code. 0 is success for linux
+#    failed_when: "'World' in results.stdout"    # stdout condition
+
+
+  - debug:
+      var: results
+
+  - name: Task Number 3
+    shell: echo Privet 3!
+
+
